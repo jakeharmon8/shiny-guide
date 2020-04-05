@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		// clear screen
-		g.setColor(Color.BLACK);
+		g.setColor(Color.GREEN);
 		g.fillRect(0, 0, S_WIDTH, S_HEIGHT);
 	}
 
