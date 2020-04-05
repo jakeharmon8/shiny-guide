@@ -8,15 +8,21 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 
+import game.Player;
+
 public class GamePanel extends JPanel implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
-	private int S_WIDTH = 1024;
-	private int S_HEIGHT = 1024;
+	private int S_WIDTH = 512;
+	private int S_HEIGHT = 512;
+	
+	private Player player;
 	
 	public GamePanel() {
 		addKeyListener(this);
 		setPreferredSize(new Dimension(S_WIDTH, S_HEIGHT));
+		
+		player = new Player();
 		
 		setFocusable(true);
 		requestFocus();
@@ -27,8 +33,10 @@ public class GamePanel extends JPanel implements KeyListener {
 	@Override
 	public void paintComponent(Graphics g) {
 		// clear screen
-		g.setColor(Color.GREEN);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, S_WIDTH, S_HEIGHT);
+		
+		player.draw(g);
 	}
 
 	@Override
