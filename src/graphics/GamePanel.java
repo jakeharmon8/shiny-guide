@@ -43,16 +43,22 @@ public class GamePanel extends JPanel implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_W:
+			player.y = player.y - 16;
 			break;
 		case KeyEvent.VK_A:
+			player.x = player.x - 16;
 			break;
 		case KeyEvent.VK_S:
+			player.y = player.y + 16;
 			break;
 		case KeyEvent.VK_D:
+			player.x = player.x + 16;
 			break;
 		case KeyEvent.VK_SPACE:
 			break;
 		}
+		
+		repaint();
 	}
 
 	@Override
