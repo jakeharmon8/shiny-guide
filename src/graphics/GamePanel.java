@@ -15,6 +15,7 @@ import javax.swing.Timer;
 
 import game.Bullet;
 import game.Enemy;
+import game.EnemyBullet;
 import game.Player;
 
 public class GamePanel extends JPanel implements KeyListener, ActionListener {
@@ -27,6 +28,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	private LinkedList<Bullet> bullets = new LinkedList();
 	private LinkedList<Enemy> enemies = new LinkedList();
 	private int time = 0;
+	private LinkedList<EnemyBullet> enemybullets = new LinkedList();
 	
 	private Random random = new Random();
 	
@@ -63,6 +65,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			
 		}
 		for(Enemy b : enemies) {
+			b.draw(g);
+		}
+		
+		for(EnemyBullet b : enemybullets) {
 			b.draw(g);
 		}
 	}
@@ -110,11 +116,39 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			Enemy b = new Enemy(random.nextInt(450)+32, 100);
 			enemies.add(b);
 		}
+		if(enemies.size() > 0) {
+			if(random.nextInt(50) == 25) {
+				EnemyBullet b = new EnemyBullet(enemies.get(random.nextInt(enemies.size())).x, 100);
+				enemybullets.add(b);
+			}
+			
+		}
+		
+		
+		for(EnemyBullet b : enemybullets) {
+			b.y += 4;
+		}
+		
 		for(Enemy b : enemies) {
 			b.x += (Math.cos(time/2)*5);
 		}
 		
-		
+		for(Enemy enemy : enemies) {
+			for(Bullet bullet : bullets) {
+				if(enemy.collides(bullet)) {
+					enemy.dead = true;
+				}
+			}
+				
+		}
+			
+		for(int i = 0; i < enemies.size(); i++) {
+			if(enemies.get(i).dead) {
+				enemies.remove(enemies.get(i));
+				i--;
+			}
+		}
+
 		
 		
 		repaint();
