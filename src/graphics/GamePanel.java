@@ -3,27 +3,38 @@ package graphics;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.LinkedList;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
+import game.Bullet;
 import game.Player;
 
-public class GamePanel extends JPanel implements KeyListener {
+public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private int S_WIDTH = 512;
 	private int S_HEIGHT = 512;
 	
 	private Player player;
+	private LinkedList<Bullet> bullets = new LinkedList();
+	
+	private Timer timer;
 	
 	public GamePanel() {
 		addKeyListener(this);
 		setPreferredSize(new Dimension(S_WIDTH, S_HEIGHT));
 		
 		player = new Player();
-		
+
+		timer = new Timer(50, this);
+		timer.start();
+
 		setFocusable(true);
 		requestFocus();
 		
@@ -37,6 +48,10 @@ public class GamePanel extends JPanel implements KeyListener {
 		g.fillRect(0, 0, S_WIDTH, S_HEIGHT);
 		
 		player.draw(g);
+		
+		for(Bullet b : bullets) {
+			b.draw(g);
+		}
 	}
 
 	@Override
@@ -55,6 +70,8 @@ public class GamePanel extends JPanel implements KeyListener {
 			player.x = player.x + 16;
 			break;
 		case KeyEvent.VK_SPACE:
+			Bullet b = new Bullet(player.x, player.y);
+			bullets.add(b);
 			break;
 		}
 		
@@ -66,4 +83,13 @@ public class GamePanel extends JPanel implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for(Bullet b : bullets) {
+			b.y -= 4;
+		}
+		
+		repaint();
+	}
 }
