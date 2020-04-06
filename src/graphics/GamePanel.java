@@ -8,11 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import game.Bullet;
+import game.Enemy;
 import game.Player;
 
 public class GamePanel extends JPanel implements KeyListener, ActionListener {
@@ -23,6 +25,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	
 	private Player player;
 	private LinkedList<Bullet> bullets = new LinkedList();
+	private LinkedList<Enemy> enemies = new LinkedList();
+	private int time = 0;
+	
+	private Random random = new Random();
+	
+			
+	
 	
 	private Timer timer;
 	
@@ -50,6 +59,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		player.draw(g);
 		
 		for(Bullet b : bullets) {
+			b.draw(g);
+			
+		}
+		for(Enemy b : enemies) {
 			b.draw(g);
 		}
 	}
@@ -88,9 +101,21 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	// This is the game loop
 	// It gets called by the Timer
 	public void actionPerformed(ActionEvent e) {
+		time++;
 		for(Bullet b : bullets) {
 			b.y -= 4;
 		}
+		
+		if(random.nextInt(70) == 69) {
+			Enemy b = new Enemy(random.nextInt(450)+32, 100);
+			enemies.add(b);
+		}
+		for(Enemy b : enemies) {
+			b.x += (Math.cos(time/2)*5);
+		}
+		
+		
+		
 		
 		repaint();
 	}
