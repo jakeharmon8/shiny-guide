@@ -85,6 +85,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void keyTyped(KeyEvent e) {}
 
 	@Override
+	// This is the game loop
+	// It gets called by the Timer
 	public void actionPerformed(ActionEvent e) {
 		for(Bullet b : bullets) {
 			b.y -= 4;
