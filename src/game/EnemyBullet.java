@@ -5,6 +5,8 @@ import java.awt.Graphics;
 
 public class EnemyBullet {
 	public int x, y, size;
+	public boolean dead = false;
+	
 	
 	public EnemyBullet(int x, int y) {
 		this.x = x;

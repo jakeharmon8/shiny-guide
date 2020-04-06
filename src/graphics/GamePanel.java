@@ -16,6 +16,7 @@ import javax.swing.Timer;
 import game.Bullet;
 import game.Enemy;
 import game.EnemyBullet;
+import game.HealthBar;
 import game.Player;
 
 public class GamePanel extends JPanel implements KeyListener, ActionListener {
@@ -25,12 +26,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	private int S_HEIGHT = 512;
 	
 	private Player player;
+	private HealthBar healthbar;
 	private LinkedList<Bullet> bullets = new LinkedList();
 	private LinkedList<Enemy> enemies = new LinkedList();
 	private int time = 0;
 	private LinkedList<EnemyBullet> enemybullets = new LinkedList();
 	
 	private Random random = new Random();
+	
 	
 			
 	
@@ -42,6 +45,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		setPreferredSize(new Dimension(S_WIDTH, S_HEIGHT));
 		
 		player = new Player();
+		healthbar = new HealthBar(player);
 
 		timer = new Timer(50, this);
 		timer.start();
@@ -59,6 +63,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.fillRect(0, 0, S_WIDTH, S_HEIGHT);
 		
 		player.draw(g);
+		healthbar.draw(g);
 		
 		for(Bullet b : bullets) {
 			b.draw(g);
@@ -71,6 +76,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		for(EnemyBullet b : enemybullets) {
 			b.draw(g);
 		}
+		
+		
 	}
 
 	@Override
@@ -152,10 +159,27 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			}
 				
 		}
+		
+		for(EnemyBullet b : enemybullets) {
+			if(player.collides(b)) {
+				player.health--;
+				b.dead = true;
+			}
+			if(player.health <= 0) {
+				System.exit(0);
+			}
+		}
 			
 		for(int i = 0; i < enemies.size(); i++) {
 			if(enemies.get(i).dead) {
 				enemies.remove(enemies.get(i));
+				i--;
+			}
+		}
+		
+		for(int i = 0; i < enemybullets.size(); i++) {
+			if(enemybullets.get(i).dead) {
+				enemybullets.remove(enemybullets.get(i));
 				i--;
 			}
 		}
