@@ -77,28 +77,37 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void keyPressed(KeyEvent e) {
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_W:
-			player.y = player.y - 16;
+			//player.y = player.y - 16;
 			break;
 		case KeyEvent.VK_A:
-			player.x = player.x - 16;
+			player.movingLeft = true;
+			player.movingRight = false;
 			break;
 		case KeyEvent.VK_S:
-			player.y = player.y + 16;
+			//player.y = player.y + 16;
 			break;
 		case KeyEvent.VK_D:
-			player.x = player.x + 16;
+			player.movingLeft = false;
+			player.movingRight = true;
 			break;
 		case KeyEvent.VK_SPACE:
 			Bullet b = new Bullet(player.x, player.y);
 			bullets.add(b);
 			break;
 		}
-		
-		repaint();
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+		switch(e.getKeyCode()) {
+		case KeyEvent.VK_A:
+			player.movingLeft = false;
+			break;
+		case KeyEvent.VK_D:
+			player.movingRight = false;
+			break;
+		}
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -108,6 +117,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	// It gets called by the Timer
 	public void actionPerformed(ActionEvent e) {
 		time++;
+		player.update();
+		
 		for(Bullet b : bullets) {
 			b.y -= 4;
 		}
