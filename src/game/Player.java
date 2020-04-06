@@ -11,7 +11,7 @@ import java.awt.Graphics;
  *
  */
 public class Player {
-	public int x = 256, y = 400, size = 32, speed = 16;
+	public int x = 256, y = 400, size = 32, speed = 12;
 	public boolean movingLeft = false, movingRight = false;
 	public int health = 5;
 	
