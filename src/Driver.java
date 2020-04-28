@@ -11,20 +11,18 @@ public class Driver {
 		//GameFrame.launchGame();
 		
 		// set up a socket
-		Socket s = new Socket(InetAddress.getByName("I dunno"), 7);
+		Socket s = new Socket(InetAddress.getByName("joshuaharmon.io"), 80);
 		
 		// set up a way to give the socket text
 		PrintWriter pw = new PrintWriter(s.getOutputStream());
 		
 		// give it the first line
-		pw.println("blah");
+		pw.println("GET / HTTP/1.1");
 		
-		// give it the second line
-		pw.println("blah");
+		pw.println("Host: joshuaharmon.io");
 		
-		// give it the last line
-		pw.println("stop");
-		
+		pw.println("");
+
 		// send the message!
 		pw.flush();
 		
