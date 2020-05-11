@@ -14,7 +14,7 @@ import transform.Rotator;
 
 public class GamePanel extends JPanel implements KeyListener {
 
-	private static final long serialVersionUID = 1L;
+
 	public static int S_WIDTH = 512;
 	public static int S_HEIGHT = 512;
 	
@@ -39,7 +39,13 @@ public class GamePanel extends JPanel implements KeyListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, S_WIDTH, S_HEIGHT);
 		
-		// TODO
+		g.setColor(Color.white);
+		for(int i = 0; i < 4; i++) {
+			Triangle t = tris.get(i);
+			t.draw(g);
+		}
+		
+		
 	}
 
 	@Override
@@ -47,20 +53,28 @@ public class GamePanel extends JPanel implements KeyListener {
 		// TODO
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_W:
+			Rotator.rotateX(tris, .1);
 			break;
 		case KeyEvent.VK_A:
+			Rotator.rotateY(tris, .1);
 			break;
 		case KeyEvent.VK_S:
+			Rotator.rotateX(tris, -.1);
 			break;
 		case KeyEvent.VK_D:
+			Rotator.rotateY(tris, -.1);
 			break;
 		case KeyEvent.VK_E:
+			Rotator.rotateZ(tris, .1);
 			break;
 		case KeyEvent.VK_Q:
+			Rotator.rotateZ(tris, -.1);
 			break;
 		case KeyEvent.VK_SPACE:
+			tris = getTetrahedron();
 			break;
 		}
+		repaint();
 	}
 
 	@Override
@@ -72,21 +86,26 @@ public class GamePanel extends JPanel implements KeyListener {
 	private List<Triangle> getTetrahedron() {
 		List<Triangle> output = new ArrayList<>();
 		output.add(new Triangle(
+					Color.white,
 					new Vertex(100, 100, 100),
 		            new Vertex(-100, -100, 100),
 		            new Vertex(-100, 100, -100)
+		            
 				  ));
 		output.add(new Triangle(
+					Color.blue,
 					new Vertex(100, 100, 100),
 		            new Vertex(-100, -100, 100),
 		            new Vertex(100, -100, -100)
 		          ));
 		output.add(new Triangle(
+					Color.green,
 					new Vertex(-100, 100, -100),
 		            new Vertex(100, -100, -100),
 		            new Vertex(100, 100, 100)
 		          ));
 		output.add(new Triangle(
+					Color.red,
 					new Vertex(-100, 100, -100),
 		            new Vertex(100, -100, -100),
 		            new Vertex(-100, -100, 100)
