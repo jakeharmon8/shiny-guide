@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		
 		// Create the simplest 3d shape, a tetrahedron
 		tris = getTetrahedron();
-		
+
 		repaint();
 	}
 
@@ -38,13 +39,21 @@ public class GamePanel extends JPanel implements KeyListener {
 		// clear screen
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, S_WIDTH, S_HEIGHT);
-		
-		g.setColor(Color.white);
-		for(int i = 0; i < 4; i++) {
-			Triangle t = tris.get(i);
-			t.draw(g);
+		BufferedImage img = new BufferedImage(S_WIDTH, S_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		double[][] zbuffer = new double[S_WIDTH][S_HEIGHT];
+		for (int y = 0; y < S_HEIGHT; y++) {
+			for( int x = 0; x < S_WIDTH; x++) {
+				zbuffer[x][y] = Double.NEGATIVE_INFINITY;
+			}
+			
 		}
 		
+
+		for(int i = 0; i < 4; i++) {
+			Triangle t = tris.get(i);
+			t.rasterize(img, zbuffer);
+		}
+		g.drawImage(img, 0, 0, S_WIDTH, S_HEIGHT, this);
 		
 	}
 
@@ -86,7 +95,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	private List<Triangle> getTetrahedron() {
 		List<Triangle> output = new ArrayList<>();
 		output.add(new Triangle(
-					Color.white,
+					Color.CYAN,
 					new Vertex(100, 100, 100),
 		            new Vertex(-100, -100, 100),
 		            new Vertex(-100, 100, -100)
