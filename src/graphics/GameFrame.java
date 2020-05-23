@@ -6,7 +6,7 @@ public class GameFrame {
 
 	public static void launchGame() {
 		// TODO Auto-generated method stub
-		JFrame f = new JFrame("ShinyPewPew v1.0");
+		JFrame f = new JFrame("ShinySnake v1.0");
 		GamePanel p = new GamePanel();
 		f.add(p);
 		f.pack();
